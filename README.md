@@ -44,7 +44,7 @@ Technologies Used
 How to Run the Project
 
     1. Clone the repository
-        git clone https://github.com/your-username/outfit-finder.git
+        git clone https://github.com/Bhumiikaa21/fashion-finder-app.git
 
     2. Navigate to the project folder
         cd outfit-finder
