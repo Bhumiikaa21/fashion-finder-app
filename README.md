@@ -47,7 +47,7 @@ How to Run the Project
         git clone https://github.com/Bhumiikaa21/fashion-finder-app.git
 
     2. Navigate to the project folder
-        cd outfit-finder
+        cd fashion-finder-app
 
     3. Open the `index.html` file in your browser
 
