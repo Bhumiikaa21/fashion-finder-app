@@ -5,7 +5,6 @@ Outfit Finder is a web-based application designed to help users discover clothin
 
 The goal of this project is to create a visually appealing and interactive platform for exploring fashion items in a structured and user-friendly way.
 
----
 
 API Used
 
@@ -17,9 +16,8 @@ The API provides:
     * Category
     * Rating
     
----
 
-Features (Planned)
+Features 
 
 Search clothing items based on keywords
 Filter products by category (Men's / Women's clothing)
@@ -30,16 +28,14 @@ Sort items based on:
     * Dark Mode / Light Mode toggle
     * Fully responsive design (mobile, tablet, desktop)
 
----
 
 Technologies Used
 
     * HTML
     * CSS
-    * JavaScript (Vanilla JS)
+    * JavaScript 
     * Fetch API
 
----
 
 How to Run the Project
 
@@ -49,12 +45,8 @@ How to Run the Project
     2. Navigate to the project folder
         cd fashion-finder-app
 
-    3. Open the `index.html` file in your browser
+    3. Open the index.html file in your browser
 
----
 
-Note
 
 This project is currently in the planning and initial development phase. Core features such as search, filtering, and sorting will be implemented in upcoming milestones.
-
----
