@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Outfit Finder</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <h1>🧥 Outfit Finder</h1>
+    <button id="themeToggle">🌙</button>
+  </nav>
+
+  <!-- CONTROLS -->
+  <div class="controls">
+    <input type="text" id="searchInput" placeholder="Search outfits...">
+
+    <select id="categoryFilter">
+      <option value="all">All</option>
+      <option value="men">Men</option>
+      <option value="women">Women</option>
+    </select>
+
+    <select id="sortOption">
+      <option value="">Sort</option>
+      <option value="low">Price ↑</option>
+      <option value="high">Price ↓</option>
+    </select>
+  </div>
+
+  <!-- PRODUCTS -->
+  <div id="productContainer"></div>
+</body>
+</html>
