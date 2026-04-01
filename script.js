@@ -1,7 +1,4 @@
-// ==========================
-// CONFIG
-// ==========================
-
+// ================= API CONFIG =================
 const API_BASE = "https://dummyjson.com/products/category";
 
 const categories = {
@@ -13,10 +10,7 @@ const categories = {
 let allProducts = [];
 let filteredProducts = [];
 
-// ==========================
-// FETCH PRODUCTS
-// ==========================
-
+// ================= FETCH PRODUCTS =================
 async function fetchProducts(type = "all") {
   try {
     const categoryList = categories[type];
@@ -33,22 +27,14 @@ async function fetchProducts(type = "all") {
     displayProducts(filteredProducts);
 
   } catch (err) {
-    console.error("Error:", err);
+    console.error(err);
   }
 }
 
-// ==========================
-// DISPLAY PRODUCTS
-// ==========================
-
+// ================= DISPLAY =================
 function displayProducts(products) {
   const grid = document.getElementById("productGrid");
   grid.innerHTML = "";
-
-  if (products.length === 0) {
-    grid.innerHTML = "<h3>No products found</h3>";
-    return;
-  }
 
   products.forEach(p => {
     const card = document.createElement("div");
@@ -57,7 +43,7 @@ function displayProducts(products) {
     const isWish = isInWishlist(p.id);
 
     card.innerHTML = `
-      <img src="${p.thumbnail}" />
+      <img src="${p.thumbnail}">
       <h4>${p.title}</h4>
       <p>₹ ${p.price}</p>
       <p>⭐ ${p.rating}</p>
@@ -70,25 +56,18 @@ function displayProducts(products) {
   });
 }
 
-// ==========================
-// SEARCH
-// ==========================
-
+// ================= SEARCH =================
 document.getElementById("searchInput").addEventListener("input", () => {
   const query = document.getElementById("searchInput").value.toLowerCase();
 
-  const result = allProducts.filter(p =>
+  filteredProducts = allProducts.filter(p =>
     p.title.toLowerCase().includes(query)
   );
 
-  filteredProducts = result;
   displayProducts(filteredProducts);
 });
 
-// ==========================
-// SORT
-// ==========================
-
+// ================= SORT =================
 function sortProducts(type) {
   let sorted = [...filteredProducts];
 
@@ -103,18 +82,12 @@ function sortProducts(type) {
   displayProducts(sorted);
 }
 
-// ==========================
-// FILTER CATEGORY
-// ==========================
-
+// ================= FILTER =================
 function filterCategory(type) {
   fetchProducts(type);
 }
 
-// ==========================
-// WISHLIST
-// ==========================
-
+// ================= WISHLIST =================
 function getWishlist() {
   return JSON.parse(localStorage.getItem("wishlist")) || [];
 }
@@ -133,12 +106,28 @@ function toggleWishlist(id) {
   }
 
   localStorage.setItem("wishlist", JSON.stringify(list));
-
   displayProducts(filteredProducts);
 }
 
-// ==========================
-// INIT
-// ==========================
+// ================= DARK MODE =================
+const toggleBtn = document.getElementById("themeToggle");
 
+if (localStorage.getItem("theme") === "dark") {
+  document.body.classList.add("dark");
+  toggleBtn.textContent = "☀️";
+}
+
+toggleBtn.addEventListener("click", () => {
+  document.body.classList.toggle("dark");
+
+  if (document.body.classList.contains("dark")) {
+    localStorage.setItem("theme", "dark");
+    toggleBtn.textContent = "☀️";
+  } else {
+    localStorage.setItem("theme", "light");
+    toggleBtn.textContent = "🌙";
+  }
+});
+
+// ================= INIT =================
 fetchProducts();
