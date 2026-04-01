@@ -1,54 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Outfit Finder</title>
-  <link rel="stylesheet" href="style.css" />
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- GOOGLE FONTS -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
 </head>
+
 <body>
 
   <!-- NAVBAR -->
   <nav class="navbar">
-    <h1>Outfit Finder</h1>
-    <input type="text" placeholder="Search outfits..." />
+    <div class="logo">Women's</div>
+
+    <div class="nav-links">
+      <a href="#">Home</a>
+      <a href="#">Shop</a>
+      <a href="#">About</a>
+      <a href="#">Contact</a>
+    </div>
+
+    <!-- SEARCH -->
+    <input 
+      type="text" 
+      placeholder="Search outfits..." 
+      class="search-box" 
+      id="searchInput"
+    >
   </nav>
 
-  <!-- FILTER SECTION -->
-  <section class="filters">
-    <button>All</button>
-    <button>Men</button>
-    <button>Women</button>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-text">
+      <h1>Elevate Your <br><span>Style!</span></h1>
+      <p>New Fashion Collection</p>
+      <button>Shop Now</button>
+    </div>
+  </section>
 
-    <select>
-      <option>Sort</option>
-      <option>Price Low → High</option>
-      <option>Price High → Low</option>
-      <option>Rating</option>
+  <!-- ✅ FILTERS (NOW IN CORRECT POSITION) -->
+  <section class="filters">
+    <button onclick="filterCategory('all')">All</button>
+    <button onclick="filterCategory('men')">Men</button>
+    <button onclick="filterCategory('women')">Women</button>
+
+    <select onchange="sortProducts(this.value)">
+      <option value="">Sort</option>
+      <option value="low-high">Price Low → High</option>
+      <option value="high-low">Price High → Low</option>
+      <option value="rating">Rating</option>
     </select>
   </section>
 
-  <!-- PRODUCT GRID -->
-  <section class="products" id="product-container">
+  <!-- PRODUCTS -->
+  <section class="products">
+    <h2>CUSTOMER TRENDS</h2>
 
-    <!-- SAMPLE CARD (UI ONLY) -->
-    <div class="card">
-      <img src="https://via.placeholder.com/200" />
-      <h3>Cool Shirt</h3>
-      <p>₹999</p>
-      <p>⭐ 4.5</p>
-      <button>Wishlist</button>
-    </div>
-
-    <div class="card">
-      <img src="https://via.placeholder.com/200" />
-      <h3>Stylish Shoes</h3>
-      <p>₹1999</p>
-      <p>⭐ 4.2</p>
-      <button>Wishlist</button>
-    </div>
-
+    <!-- JS will insert products here -->
+    <div class="product-grid" id="productGrid"></div>
   </section>
+
+  <!-- JS -->
+  <script src="script.js"></script>
 
 </body>
 </html>

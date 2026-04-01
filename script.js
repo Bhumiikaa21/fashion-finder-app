@@ -1,6 +1,6 @@
-// ===============================
+// ==========================
 // CONFIG
-// ===============================
+// ==========================
 
 const API_BASE = "https://dummyjson.com/products/category";
 
@@ -13,13 +13,13 @@ const categories = {
 let allProducts = [];
 let filteredProducts = [];
 
-// ===============================
-// FETCH PRODUCTS (ONLY FASHION)
-// ===============================
+// ==========================
+// FETCH PRODUCTS
+// ==========================
 
-async function fetchFashionProducts(selected = "all") {
+async function fetchProducts(type = "all") {
   try {
-    const categoryList = categories[selected];
+    const categoryList = categories[type];
 
     const requests = categoryList.map(cat =>
       fetch(`${API_BASE}/${cat}`).then(res => res.json())
@@ -27,68 +27,67 @@ async function fetchFashionProducts(selected = "all") {
 
     const results = await Promise.all(requests);
 
-    // Combine all category products
-    allProducts = results.flatMap(res => res.products);
-
+    allProducts = results.flatMap(r => r.products);
     filteredProducts = [...allProducts];
 
     displayProducts(filteredProducts);
 
-  } catch (error) {
-    console.error("Error fetching products:", error);
+  } catch (err) {
+    console.error("Error:", err);
   }
 }
 
-// ===============================
+// ==========================
 // DISPLAY PRODUCTS
-// ===============================
+// ==========================
 
 function displayProducts(products) {
-  const container = document.getElementById("product-container");
-  container.innerHTML = "";
+  const grid = document.getElementById("productGrid");
+  grid.innerHTML = "";
 
   if (products.length === 0) {
-    container.innerHTML = "<h2>No products found</h2>";
+    grid.innerHTML = "<h3>No products found</h3>";
     return;
   }
 
-  products.forEach(product => {
+  products.forEach(p => {
     const card = document.createElement("div");
     card.className = "product-card";
 
-    const isWishlisted = isInWishlist(product.id);
+    const isWish = isInWishlist(p.id);
 
     card.innerHTML = `
-      <img src="${product.thumbnail}" alt="${product.title}" />
-      <h3>${product.title}</h3>
-      <p>₹ ${product.price}</p>
-      <p>⭐ ${product.rating}</p>
-      <button onclick="toggleWishlist(${product.id})">
-        ${isWishlisted ? "❤️ Remove" : "🤍 Wishlist"}
+      <img src="${p.thumbnail}" />
+      <h4>${p.title}</h4>
+      <p>₹ ${p.price}</p>
+      <p>⭐ ${p.rating}</p>
+      <button onclick="toggleWishlist(${p.id})">
+        ${isWish ? "❤️ Remove" : "🤍 Wishlist"}
       </button>
     `;
 
-    container.appendChild(card);
+    grid.appendChild(card);
   });
 }
 
-// ===============================
+// ==========================
 // SEARCH
-// ===============================
+// ==========================
 
-function searchProducts() {
-  const query = document.getElementById("search-input").value.toLowerCase();
+document.getElementById("searchInput").addEventListener("input", () => {
+  const query = document.getElementById("searchInput").value.toLowerCase();
 
-  filteredProducts = allProducts.filter(product =>
-    product.title.toLowerCase().includes(query)
+  const result = allProducts.filter(p =>
+    p.title.toLowerCase().includes(query)
   );
 
+  filteredProducts = result;
   displayProducts(filteredProducts);
-}
+});
 
-// ===============================
+// ==========================
 // SORT
-// ===============================
+// ==========================
 
 function sortProducts(type) {
   let sorted = [...filteredProducts];
@@ -104,17 +103,17 @@ function sortProducts(type) {
   displayProducts(sorted);
 }
 
-// ===============================
-// CATEGORY FILTER
-// ===============================
+// ==========================
+// FILTER CATEGORY
+// ==========================
 
 function filterCategory(type) {
-  fetchFashionProducts(type);
+  fetchProducts(type);
 }
 
-// ===============================
-// WISHLIST (LOCAL STORAGE)
-// ===============================
+// ==========================
+// WISHLIST
+// ==========================
 
 function getWishlist() {
   return JSON.parse(localStorage.getItem("wishlist")) || [];
@@ -125,21 +124,21 @@ function isInWishlist(id) {
 }
 
 function toggleWishlist(id) {
-  let wishlist = getWishlist();
+  let list = getWishlist();
 
-  if (wishlist.includes(id)) {
-    wishlist = wishlist.filter(item => item !== id);
+  if (list.includes(id)) {
+    list = list.filter(i => i !== id);
   } else {
-    wishlist.push(id);
+    list.push(id);
   }
 
-  localStorage.setItem("wishlist", JSON.stringify(wishlist));
+  localStorage.setItem("wishlist", JSON.stringify(list));
 
   displayProducts(filteredProducts);
 }
 
-// ===============================
-// INITIAL LOAD
-// ===============================
+// ==========================
+// INIT
+// ==========================
 
-fetchFashionProducts();
+fetchProducts();

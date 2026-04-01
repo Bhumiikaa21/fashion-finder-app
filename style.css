@@ -3,12 +3,11 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
-/* BODY */
 body {
-  background: #f5f5f5;
+  background: #f8f5f2;
 }
 
 /* NAVBAR */
@@ -16,74 +15,204 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 30px;
+  padding: 20px 60px;
+  background: white;
+}
+
+.logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.nav-links {
+  display: flex;
+  gap: 25px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: black;
+  font-size: 14px;
+}
+
+.search-box {
+  padding: 8px 15px;
+  border-radius: 20px;
+  border: 1px solid #ddd;
+}
+
+/* HERO */
+.hero {
+  height: 90vh;
+  background: url("https://images.unsplash.com/photo-1520975916090-3105956dac38") center/cover no-repeat;
+  display: flex;
+  align-items: center;
+  padding: 0 80px;
+}
+
+.hero-text h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 60px;
+  line-height: 1.2;
+}
+
+.hero-text span {
+  font-size: 70px;
+}
+
+.hero-text p {
+  margin-top: 10px;
+}
+
+.hero-text button {
+  margin-top: 20px;
+  padding: 12px 25px;
+  border: none;
+  background: #d8a48f;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+/* CATEGORIES */
+.categories {
+  padding: 60px;
+  text-align: center;
+}
+
+.categories h2 {
+  font-family: 'Playfair Display', serif;
+  margin-bottom: 30px;
+}
+
+.category-grid {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+}
+
+.cat-card img {
+  width: 180px;
+  border-radius: 10px;
+  transition: 0.3s;
+}
+
+.cat-card img:hover {
+  transform: scale(1.05);
+}
+
+.cat-card p {
+  margin-top: 10px;
+}
+
+/* PROMO */
+.promo {
+  display: flex;
+  margin: 50px;
+  height: 300px;
+}
+
+.promo-left {
+  flex: 1;
+  background: url("https://images.unsplash.com/photo-1490481651871-ab68de25d43d") center/cover;
+}
+
+.promo-right {
+  flex: 1;
+  background: #f2e5df;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.promo-right h1 {
+  font-size: 40px;
+  font-family: 'Playfair Display', serif;
+}
+
+.promo-right button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  border: none;
   background: black;
   color: white;
+  cursor: pointer;
 }
 
-.navbar input {
-  padding: 8px;
-  width: 250px;
-  border-radius: 5px;
-  border: none;
+/* PRODUCTS */
+.products {
+  padding: 60px;
+  text-align: center;
 }
 
-/* FILTERS */
+.products h2 {
+  font-family: 'Playfair Display', serif;
+  margin-bottom: 30px;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
+  gap: 25px;
+}
+
+.product-card {
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  transition: 0.3s;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+}
+
+.product-card img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+.product-card h4 {
+  margin-top: 10px;
+}
+
+.product-card p {
+  color: #555;
+}
+
 .filters {
   display: flex;
-  gap: 10px;
-  padding: 20px 30px;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  padding: 20px;
+  background: #fff;
+  margin-top: -40px; /* overlaps hero slightly 🔥 */
+  position: relative;
+  z-index: 2;
+  border-radius: 10px;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
 
 .filters button {
   padding: 8px 15px;
   border: none;
-  background: white;
+  background: #f2e5df;
   cursor: pointer;
-  border-radius: 5px;
+  border-radius: 20px;
+}
+
+.filters button:hover {
+  background: #d8a48f;
+  color: white;
 }
 
 .filters select {
-  padding: 8px;
-}
-
-/* PRODUCT GRID */
-.products {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 20px;
-  padding: 20px 30px;
-}
-
-/* CARD */
-.card {
-  background: white;
-  padding: 15px;
+  padding: 8px 10px;
   border-radius: 10px;
-  text-align: center;
-  transition: 0.3s;
-}
-
-.card:hover {
-  transform: scale(1.03);
-}
-
-.card img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-}
-
-.card h3 {
-  margin: 10px 0;
-}
-
-.card button {
-  margin-top: 10px;
-  padding: 8px;
-  border: none;
-  background: black;
-  color: white;
-  cursor: pointer;
-  border-radius: 5px;
 }
