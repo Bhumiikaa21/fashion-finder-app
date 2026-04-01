@@ -1,115 +1,145 @@
-// =====================
-// GLOBAL VARIABLES
-// =====================
-let allProducts = [];
+// ===============================
+// CONFIG
+// ===============================
 
-let state = {
-  search: "",
-  category: "all",
-  sort: ""
+const API_BASE = "https://dummyjson.com/products/category";
+
+const categories = {
+  all: ["mens-shirts", "mens-shoes", "womens-dresses", "womens-shoes", "tops"],
+  men: ["mens-shirts", "mens-shoes"],
+  women: ["womens-dresses", "womens-shoes", "tops"]
 };
 
-// =====================
-// FETCH PRODUCTS
-// =====================
-async function fetchProducts() {
+let allProducts = [];
+let filteredProducts = [];
+
+// ===============================
+// FETCH PRODUCTS (ONLY FASHION)
+// ===============================
+
+async function fetchFashionProducts(selected = "all") {
   try {
-    let men = await fetch("https://fakestoreapi.com/products/category/men's clothing")
-      .then(res => res.json());
+    const categoryList = categories[selected];
 
-    let women = await fetch("https://fakestoreapi.com/products/category/women's clothing")
-      .then(res => res.json());
+    const requests = categoryList.map(cat =>
+      fetch(`${API_BASE}/${cat}`).then(res => res.json())
+    );
 
-    allProducts = [...men, ...women];
+    const results = await Promise.all(requests);
 
-    updateUI(); // initial render
+    // Combine all category products
+    allProducts = results.flatMap(res => res.products);
+
+    filteredProducts = [...allProducts];
+
+    displayProducts(filteredProducts);
+
   } catch (error) {
-    console.error("Error fetching data:", error);
+    console.error("Error fetching products:", error);
   }
 }
 
-fetchProducts();
-
-// =====================
-// UPDATE UI (MAIN LOGIC)
-// =====================
-function updateUI() {
-  let filtered = [...allProducts];
-
-  // 🔍 SEARCH
-  if (state.search) {
-    filtered = filtered.filter(item =>
-      item.title.toLowerCase().includes(state.search)
-    );
-  }
-
-  // 🎯 FILTER
-  if (state.category !== "all") {
-    filtered = filtered.filter(item =>
-      item.category.includes(state.category)
-    );
-  }
-
-  // 🔃 SORT
-  if (state.sort === "low") {
-    filtered.sort((a, b) => a.price - b.price);
-  } else if (state.sort === "high") {
-    filtered.sort((a, b) => b.price - a.price);
-  }
-
-  displayProducts(filtered);
-}
-
-// =====================
+// ===============================
 // DISPLAY PRODUCTS
-// =====================
+// ===============================
+
 function displayProducts(products) {
-  const container = document.getElementById("productContainer");
+  const container = document.getElementById("product-container");
   container.innerHTML = "";
 
-  products.map(product => {
-    let div = document.createElement("div");
-    div.className = "card";
+  if (products.length === 0) {
+    container.innerHTML = "<h2>No products found</h2>";
+    return;
+  }
 
-    div.innerHTML = `
-      <img src="${product.image}" />
+  products.forEach(product => {
+    const card = document.createElement("div");
+    card.className = "product-card";
+
+    const isWishlisted = isInWishlist(product.id);
+
+    card.innerHTML = `
+      <img src="${product.thumbnail}" alt="${product.title}" />
       <h3>${product.title}</h3>
-      <p>₹${product.price}</p>
+      <p>₹ ${product.price}</p>
+      <p>⭐ ${product.rating}</p>
+      <button onclick="toggleWishlist(${product.id})">
+        ${isWishlisted ? "❤️ Remove" : "🤍 Wishlist"}
+      </button>
     `;
 
-    container.appendChild(div);
+    container.appendChild(card);
   });
 }
 
-// =====================
-// SEARCH (DEBOUNCED)
-// =====================
-let timeout;
+// ===============================
+// SEARCH
+// ===============================
 
-document.getElementById("searchInput").addEventListener("input", function () {
-  clearTimeout(timeout);
+function searchProducts() {
+  const query = document.getElementById("search-input").value.toLowerCase();
 
-  timeout = setTimeout(() => {
-    state.search = this.value.toLowerCase();
-    updateUI();
-  }, 300);
-});
+  filteredProducts = allProducts.filter(product =>
+    product.title.toLowerCase().includes(query)
+  );
 
-// =====================
-// FILTER
-// =====================
-document.getElementById("categoryFilter").addEventListener("change", function () {
-  state.category = this.value;
-  updateUI();
-});
+  displayProducts(filteredProducts);
+}
 
-// =====================
+// ===============================
 // SORT
-// =====================
-document.getElementById("sortOption").addEventListener("change", function () {
-  state.sort = this.value;
-  updateUI();
-});
+// ===============================
 
+function sortProducts(type) {
+  let sorted = [...filteredProducts];
 
+  if (type === "low-high") {
+    sorted.sort((a, b) => a.price - b.price);
+  } else if (type === "high-low") {
+    sorted.sort((a, b) => b.price - a.price);
+  } else if (type === "rating") {
+    sorted.sort((a, b) => b.rating - a.rating);
+  }
 
+  displayProducts(sorted);
+}
+
+// ===============================
+// CATEGORY FILTER
+// ===============================
+
+function filterCategory(type) {
+  fetchFashionProducts(type);
+}
+
+// ===============================
+// WISHLIST (LOCAL STORAGE)
+// ===============================
+
+function getWishlist() {
+  return JSON.parse(localStorage.getItem("wishlist")) || [];
+}
+
+function isInWishlist(id) {
+  return getWishlist().includes(id);
+}
+
+function toggleWishlist(id) {
+  let wishlist = getWishlist();
+
+  if (wishlist.includes(id)) {
+    wishlist = wishlist.filter(item => item !== id);
+  } else {
+    wishlist.push(id);
+  }
+
+  localStorage.setItem("wishlist", JSON.stringify(wishlist));
+
+  displayProducts(filteredProducts);
+}
+
+// ===============================
+// INITIAL LOAD
+// ===============================
+
+fetchFashionProducts();

@@ -1,35 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Outfit Finder</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+
   <!-- NAVBAR -->
   <nav class="navbar">
-    <h1>🧥 Outfit Finder</h1>
-    <button id="themeToggle">🌙</button>
+    <h1>Outfit Finder</h1>
+    <input type="text" placeholder="Search outfits..." />
   </nav>
 
-  <!-- CONTROLS -->
-  <div class="controls">
-    <input type="text" id="searchInput" placeholder="Search outfits...">
+  <!-- FILTER SECTION -->
+  <section class="filters">
+    <button>All</button>
+    <button>Men</button>
+    <button>Women</button>
 
-    <select id="categoryFilter">
-      <option value="all">All</option>
-      <option value="men">Men</option>
-      <option value="women">Women</option>
+    <select>
+      <option>Sort</option>
+      <option>Price Low → High</option>
+      <option>Price High → Low</option>
+      <option>Rating</option>
     </select>
+  </section>
 
-    <select id="sortOption">
-      <option value="">Sort</option>
-      <option value="low">Price ↑</option>
-      <option value="high">Price ↓</option>
-    </select>
-  </div>
+  <!-- PRODUCT GRID -->
+  <section class="products" id="product-container">
 
-  <!-- PRODUCTS -->
-  <div id="productContainer"></div>
+    <!-- SAMPLE CARD (UI ONLY) -->
+    <div class="card">
+      <img src="https://via.placeholder.com/200" />
+      <h3>Cool Shirt</h3>
+      <p>₹999</p>
+      <p>⭐ 4.5</p>
+      <button>Wishlist</button>
+    </div>
+
+    <div class="card">
+      <img src="https://via.placeholder.com/200" />
+      <h3>Stylish Shoes</h3>
+      <p>₹1999</p>
+      <p>⭐ 4.2</p>
+      <button>Wishlist</button>
+    </div>
+
+  </section>
+
 </body>
 </html>
