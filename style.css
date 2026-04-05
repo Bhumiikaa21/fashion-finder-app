@@ -1,4 +1,3 @@
-/* 🔥 THEME */
 :root {
   --bg: #0f0f0f;
   --card: #181818;
@@ -17,7 +16,6 @@ body.light-mode {
   --border: rgba(0, 0, 0, 0.08);
 }
 
-/* RESET */
 * {
   margin: 0;
   padding: 0;
@@ -32,7 +30,6 @@ body {
   overflow-x: hidden;
 }
 
-/* NAV */
 .navbar {
   position: sticky;
   top: 0;
@@ -84,7 +81,6 @@ body {
   background: rgba(255, 255, 255, 0.05);
 }
 
-/* HERO */
 .hero {
   text-align: center;
   padding: 80px 20px;
@@ -111,7 +107,6 @@ body {
   align-items: center;
 }
 
-/* CONTROLS */
 .controls {
   text-align: center;
   margin-top: 30px;
@@ -206,7 +201,6 @@ body {
   box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
 }
 
-/* TIMELINE */
 .timeline-container {
   position: relative;
   width: 90%;
@@ -261,7 +255,6 @@ body {
 .timeline-item.left .timeline-dot { right: -8px; }
 .timeline-item.right .timeline-dot { left: -8px; }
 
-/* CONTENT CARD */
 .content-card {
   background: var(--card);
   border-radius: 16px;
@@ -335,7 +328,6 @@ body {
   justify-content: flex-end;
 }
 
-/* WIKI LINK */
 .wiki-link {
   color: var(--accent);
   text-decoration: none;
@@ -360,7 +352,6 @@ body {
   width: 100%;
 }
 
-/* SAVE BUTTON */
 .save-btn {
   background: transparent;
   border: 1px solid var(--accent);
@@ -386,7 +377,6 @@ body {
   color: #000;
 }
 
-/* SAVED PAGE */
 .saved-container {
   max-width: 800px;
   margin: 60px auto;
@@ -430,7 +420,6 @@ body {
 }
 
 .saved-text {
-  color: var(--text);
   font-size: 17px;
   line-height: 1.7;
   color: var(--subtext);
@@ -463,7 +452,6 @@ body {
   border-color: #ff4d4d;
 }
 
-/* LOADER */
 .loader {
   position: fixed;
   top: 50%;
@@ -481,7 +469,6 @@ body {
 
 .hidden { display: none; }
 
-/* FOOTER */
 .footer {
   text-align: center;
   padding: 40px;
@@ -491,7 +478,6 @@ body {
   margin-top: 80px;
 }
 
-/* RESPONSIVE */
 @media (max-width: 768px) {
   .navbar { padding: 20px; }
   .hero h1 { font-size: 36px; }
@@ -501,7 +487,6 @@ body {
   .divider { margin-left: 0 !important; }
   .content-card { text-align: left !important; }
   .actions-row { justify-content: flex-start !important; }
-  
   .saved-card { flex-direction: column; }
   .saved-img { width: 100%; height: 150px; }
 }

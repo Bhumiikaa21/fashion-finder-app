@@ -5,15 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>On This Day | Historical Explorer</title>
 
-  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 
-  <!-- CSS -->
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-  <!-- 🔝 NAVBAR -->
   <nav class="navbar">
     <div class="logo">On This Day</div>
 
@@ -23,8 +20,6 @@
     </div>
   </nav>
 
-
-  <!-- 🎯 HERO SECTION -->
   <section class="hero">
     <h1>Explore History by Date</h1>
     <p>Discover events, births, and deaths from any day in history</p>
@@ -46,25 +41,22 @@
           <option value="12">Dec</option>
         </select>
       </div>
+
       <div class="select-wrapper">
         <select id="daySelect"></select>
       </div>
+
       <button id="todayBtn">Today</button>
     </div>
   </section>
 
-
-  <!-- 🎛️ CONTROL PANEL -->
   <section class="controls">
-
-    <!-- Tabs -->
     <div class="tabs">
       <button class="tab active" data-type="Events">Events</button>
       <button class="tab" data-type="Births">Births</button>
       <button class="tab" data-type="Deaths">Deaths</button>
     </div>
 
-    <!-- Filters -->
     <div class="filters">
       <input type="number" id="yearFilter" placeholder="Filter by year (e.g. 1800)" />
 
@@ -75,34 +67,21 @@
 
       <input type="text" id="searchInput" placeholder="Search in events..." />
     </div>
-
   </section>
 
-
-  <!-- 📜 TIMELINE SECTION -->
   <section class="timeline-container">
-
-    <!-- Vertical Line -->
     <div class="timeline-line"></div>
-
-    <!-- Timeline Items (JS will inject here) -->
     <div id="timeline"></div>
   </section>
 
-
-  <!-- ⏳ LOADER -->
   <div id="loader" class="loader hidden">
     Loading...
   </div>
 
-
-  <!-- 📄 FOOTER -->
   <footer class="footer">
     <p>© 2026 On This Day Explorer</p>
   </footer>
 
-
-  <!-- JS -->
   <script src="script.js"></script>
 
 </body>

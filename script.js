@@ -1,9 +1,7 @@
-// 🔹 GLOBAL STATE
 let allData = [];
 let currentType = "Events";
-let isFetching = false; // Guard to prevent duplicate API calls
+let isFetching = false;
 
-// 🔹 ELEMENTS
 const timeline = document.getElementById("timeline");
 const monthSelect = document.getElementById("monthSelect");
 const daySelect = document.getElementById("daySelect");
@@ -15,25 +13,18 @@ const searchInput = document.getElementById("searchInput");
 const toggleBtn = document.getElementById("darkModeToggle");
 const loader = document.getElementById("loader");
 
-// 🔹 INITIALIZATION & LIFECYCLE
 function initApp() {
   loadTheme();
   initDateDropdowns();
-  
-  // Initial data load if needed
   if (!timeline.children.length && !isFetching) {
     loadToday();
   }
 }
 
-// Handle initial load
 document.addEventListener("DOMContentLoaded", initApp);
 
-// Handle back/forward cache (bfcache) and navigation back
-window.addEventListener("pageshow", (event) => {
-  // If the page was restored from cache or timeline is empty, ensure data is present
+window.addEventListener("pageshow", () => {
   if (!timeline.children.length && !isFetching) {
-    // We check if dropdowns are already initialized; if not, initApp will handle it
     if (monthSelect.value && daySelect.value) {
       fetchData(monthSelect.value, daySelect.value);
     } else {
@@ -42,7 +33,6 @@ window.addEventListener("pageshow", (event) => {
   }
 });
 
-// Handle tab switching or returning to the app
 document.addEventListener("visibilitychange", () => {
   if (document.visibilityState === "visible" && !timeline.children.length && !isFetching) {
     if (monthSelect.value && daySelect.value) {
@@ -53,7 +43,6 @@ document.addEventListener("visibilitychange", () => {
   }
 });
 
-// 🔹 THEME (Light/Dark)
 function loadTheme() {
   const saved = localStorage.getItem("theme");
   if (saved === "light") {
@@ -76,9 +65,7 @@ toggleBtn.addEventListener("click", () => {
   }
 });
 
-// 🔹 DATE DROPDOWNS
 function initDateDropdowns() {
-  // Populate days
   updateDayOptions();
 
   monthSelect.addEventListener("change", () => {
@@ -93,7 +80,7 @@ function initDateDropdowns() {
 
 function updateDayOptions() {
   const month = parseInt(monthSelect.value);
-  const year = new Date().getFullYear(); // Use current year for leap year check
+  const year = new Date().getFullYear();
   const daysInMonth = new Date(year, month, 0).getDate();
   
   const currentDay = daySelect.value;
@@ -111,7 +98,6 @@ function updateDayOptions() {
   }
 }
 
-// 🔹 LOAD TODAY
 function loadToday() {
   const today = new Date();
   monthSelect.value = today.getMonth() + 1;
@@ -120,7 +106,6 @@ function loadToday() {
   fetchData(today.getMonth() + 1, today.getDate());
 }
 
-// 🔹 FETCH DATA
 async function fetchData(month, day) {
   if (!month || !day || isFetching) return;
   
@@ -145,22 +130,18 @@ async function fetchData(month, day) {
   }
 }
 
-// 🔹 APPLY FILTERS
 function applyFilters() {
   if (!allData || !allData[currentType]) return;
   
   let events = [...allData[currentType]];
 
-  // Convert year
   events.forEach(e => e.year = parseInt(e.year));
 
-  // Year filter
   const yearVal = parseInt(yearFilter.value);
   if (yearVal) {
     events = events.filter(e => e.year >= yearVal);
   }
 
-  // Search filter
   const searchVal = searchInput.value.toLowerCase();
   if (searchVal) {
     events = events.filter(e =>
@@ -168,7 +149,6 @@ function applyFilters() {
     );
   }
 
-  // Sort
   const sort = sortSelect.value;
   events.sort((a, b) =>
     sort === "asc" ? a.year - b.year : b.year - a.year
@@ -177,7 +157,6 @@ function applyFilters() {
   renderTimeline(events);
 }
 
-// 🔹 RENDER TIMELINE
 function renderTimeline(events) {
   timeline.innerHTML = "";
 
@@ -223,13 +202,11 @@ function renderTimeline(events) {
       </div>
     `;
 
-    // 🔥 Expand logic
     const card = item.querySelector(".content-card");
     card.addEventListener("click", () => {
       card.classList.toggle("expanded");
     });
 
-    // 🔹 Save logic
     const saveBtn = item.querySelector(".save-btn");
     saveBtn.addEventListener("click", (e) => {
       e.stopPropagation();
@@ -238,29 +215,22 @@ function renderTimeline(events) {
 
     timeline.appendChild(item);
 
-    // 🔹 Animation
     setTimeout(() => {
       item.classList.add("show");
     }, index * 70);
   });
 }
 
-// 🔹 TODAY BUTTON
 todayBtn.addEventListener("click", loadToday);
 
-// 🔹 TABS
 tabs.forEach(tab => {
   tab.addEventListener("click", () => {
     const type = tab.getAttribute("data-type");
     if (!type) return;
 
-    // Update UI
     tabs.forEach(t => t.classList.remove("active"));
     tab.classList.add("active");
 
-    // 🔹 Corrected Mapping: Swapping Births and Deaths to match API keys
-    // If user clicks Births → use data.Deaths
-    // If user clicks Deaths → use data.Births
     if (type === "Births") {
       currentType = "Deaths";
     } else if (type === "Deaths") {
@@ -273,12 +243,10 @@ tabs.forEach(tab => {
   });
 });
 
-// 🔹 FILTER EVENTS
 yearFilter.addEventListener("input", applyFilters);
 sortSelect.addEventListener("change", applyFilters);
 searchInput.addEventListener("input", applyFilters);
 
-// 🔹 SAVE LOGIC
 function checkIfSaved(text) {
   const favs = JSON.parse(localStorage.getItem("favorites")) || [];
   return favs.some(e => e.text === text);
@@ -289,12 +257,10 @@ function toggleSave(btn, event) {
   const index = favs.findIndex(e => e.text === event.text);
 
   if (index > -1) {
-    // Unsave
     favs.splice(index, 1);
     btn.classList.remove("saved");
     btn.textContent = "Save";
   } else {
-    // Save
     favs.push(event);
     btn.classList.add("saved");
     btn.textContent = "Saved";

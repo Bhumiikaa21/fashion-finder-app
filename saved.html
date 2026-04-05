@@ -5,15 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Saved History | On This Day</title>
 
-  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 
-  <!-- CSS -->
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-  <!-- 🔝 NAVBAR -->
   <nav class="navbar">
     <a href="index.html" class="logo" style="text-decoration:none;">On This Day</a>
 
@@ -23,35 +20,25 @@
     </div>
   </nav>
 
-
-  <!-- ⭐ SAVED SECTION -->
   <section class="saved-container">
     <h1 style="font-family:'Playfair Display'; font-size:42px; text-align:center; margin-bottom:40px;">Your Saved History</h1>
     
-    <div id="savedGrid" class="saved-grid">
-      <!-- Saved items will inject here -->
-    </div>
+    <div id="savedGrid" class="saved-grid"></div>
   </section>
 
-
-  <!-- 📄 FOOTER -->
   <footer class="footer">
     <p>© 2026 On This Day Explorer</p>
   </footer>
 
-
-  <!-- JS -->
   <script>
     const savedGrid = document.getElementById("savedGrid");
     const toggleBtn = document.getElementById("darkModeToggle");
 
-    // 🔹 INIT
     window.onload = () => {
       loadTheme();
       renderSaved();
     };
 
-    // 🔹 THEME
     function loadTheme() {
       const saved = localStorage.getItem("theme");
       if (saved === "light") {
@@ -74,7 +61,6 @@
       }
     });
 
-    // 🔹 RENDER SAVED
     function renderSaved() {
       const favs = JSON.parse(localStorage.getItem("favorites")) || [];
       savedGrid.innerHTML = "";
@@ -84,7 +70,7 @@
         return;
       }
 
-      favs.forEach((item, index) => {
+      favs.forEach((item) => {
         const card = document.createElement("div");
         card.className = "saved-card";
 
@@ -107,7 +93,6 @@
           </div>
         `;
 
-        // 🔹 Remove logic
         const removeBtn = card.querySelector(".remove-btn");
         removeBtn.addEventListener("click", () => {
           removeSaved(item.text);
@@ -117,7 +102,6 @@
       });
     }
 
-    // 🔹 REMOVE
     function removeSaved(text) {
       let favs = JSON.parse(localStorage.getItem("favorites")) || [];
       favs = favs.filter(e => e.text !== text);
