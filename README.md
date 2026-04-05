@@ -50,13 +50,13 @@ How to Run the Project
 1. Clone the repository
 
 ```
-git clone <your-repo-link>
+git clone https://github.com/Bhumiikaa21/On_This_Day.git
 ```
 
 2. Navigate to the project folder
 
 ```
-cd <your-project-folder>
+cd On_This_Day
 ```
 
 3. Open the project
