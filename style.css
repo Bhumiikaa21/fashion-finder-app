@@ -34,6 +34,10 @@ body {
 
 /* NAV */
 .navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: var(--bg);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -310,9 +314,13 @@ body {
   color: var(--text);
 }
 
+.content-card.expanded .preview-text {
+  display: none;
+}
+
 .content-card.expanded .extra-content {
-  max-height: 500px;
-  margin-top: 20px;
+  max-height: 1000px;
+  margin-top: 0;
 }
 
 .actions-row {

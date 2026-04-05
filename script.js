@@ -190,6 +190,9 @@ function renderTimeline(events) {
     const side = index % 2 === 0 ? "left" : "right";
     const isSaved = checkIfSaved(event.text);
 
+    const previewText = event.text.length > 100 ? event.text.slice(0, 100) + "..." : event.text;
+    const fullText = event.text;
+
     const item = document.createElement("div");
     item.className = `timeline-item ${side}`;
 
@@ -200,12 +203,10 @@ function renderTimeline(events) {
         <h2 class="year">${event.year}</h2>
         <div class="divider"></div>
 
-        <p class="preview-text">
-          ${event.text.slice(0, 120)}...
-        </p>
+        <p class="preview-text">${previewText}</p>
 
         <div class="extra-content">
-          <p>${event.text}</p>
+          <p class="full-description">${fullText}</p>
 
           <div class="actions-row">
             ${
@@ -250,10 +251,24 @@ todayBtn.addEventListener("click", loadToday);
 // 🔹 TABS
 tabs.forEach(tab => {
   tab.addEventListener("click", () => {
+    const type = tab.getAttribute("data-type");
+    if (!type) return;
+
+    // Update UI
     tabs.forEach(t => t.classList.remove("active"));
     tab.classList.add("active");
 
-    currentType = tab.dataset.type;
+    // 🔹 Corrected Mapping: Swapping Births and Deaths to match API keys
+    // If user clicks Births → use data.Deaths
+    // If user clicks Deaths → use data.Births
+    if (type === "Births") {
+      currentType = "Deaths";
+    } else if (type === "Deaths") {
+      currentType = "Births";
+    } else {
+      currentType = type;
+    }
+
     applyFilters();
   });
 });
