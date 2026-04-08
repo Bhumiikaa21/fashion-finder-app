@@ -2,45 +2,22 @@ let allData = [];
 let currentType = "Events";
 let isFetching = false;
 
-const timeline = document.getElementById("timeline");
-const monthSelect = document.getElementById("monthSelect");
-const daySelect = document.getElementById("daySelect");
-const todayBtn = document.getElementById("todayBtn");
-const tabs = document.querySelectorAll(".tab");
-const yearFilter = document.getElementById("yearFilter");
-const sortSelect = document.getElementById("sort");
-const searchInput = document.getElementById("searchInput");
-const toggleBtn = document.getElementById("darkModeToggle");
-const loader = document.getElementById("loader");
+const timeline     = document.getElementById("timeline");
+const monthSelect  = document.getElementById("monthSelect");
+const daySelect    = document.getElementById("daySelect");
+const todayBtn     = document.getElementById("todayBtn");
+const tabs         = document.querySelectorAll(".tab");
+const yearFilter   = document.getElementById("yearFilter");
+const sortSelect   = document.getElementById("sort");
+const searchInput  = document.getElementById("searchInput");
+const toggleBtn    = document.getElementById("darkModeToggle");
+const loader       = document.getElementById("loader");
 
-function initApp() {
+document.addEventListener("DOMContentLoaded", function () {
   loadTheme();
-  initDateDropdowns();
-  if (!timeline.children.length && !isFetching) {
-    loadToday();
-  }
-}
-
-document.addEventListener("DOMContentLoaded", initApp);
-
-window.addEventListener("pageshow", () => {
-  if (!timeline.children.length && !isFetching) {
-    if (monthSelect.value && daySelect.value) {
-      fetchData(monthSelect.value, daySelect.value);
-    } else {
-      loadToday();
-    }
-  }
-});
-
-document.addEventListener("visibilitychange", () => {
-  if (document.visibilityState === "visible" && !timeline.children.length && !isFetching) {
-    if (monthSelect.value && daySelect.value) {
-      fetchData(monthSelect.value, daySelect.value);
-    } else {
-      loadToday();
-    }
-  }
+  setupMonthDropdown();
+  setupDayDropdown();
+  loadToday();
 });
 
 function loadTheme() {
@@ -53,46 +30,41 @@ function loadTheme() {
   }
 }
 
-toggleBtn.addEventListener("click", () => {
+toggleBtn.addEventListener("click", function () {
   document.body.classList.toggle("light-mode");
   const isLight = document.body.classList.contains("light-mode");
-  if (isLight) {
-    localStorage.setItem("theme", "light");
-    toggleBtn.textContent = "☀️";
-  } else {
-    localStorage.setItem("theme", "dark");
-    toggleBtn.textContent = "🌙";
-  }
+  localStorage.setItem("theme", isLight ? "light" : "dark");
+  toggleBtn.textContent = isLight ? "☀️" : "🌙";
 });
 
-function initDateDropdowns() {
-  updateDayOptions();
-
-  monthSelect.addEventListener("change", () => {
-    updateDayOptions();
-    fetchData(monthSelect.value, daySelect.value);
-  });
-
-  daySelect.addEventListener("change", () => {
+function setupMonthDropdown() {
+  monthSelect.addEventListener("change", function () {
+    fillDayOptions();
     fetchData(monthSelect.value, daySelect.value);
   });
 }
 
-function updateDayOptions() {
+function setupDayDropdown() {
+  fillDayOptions();
+  daySelect.addEventListener("change", function () {
+    fetchData(monthSelect.value, daySelect.value);
+  });
+}
+
+function fillDayOptions() {
   const month = parseInt(monthSelect.value);
-  const year = new Date().getFullYear();
-  const daysInMonth = new Date(year, month, 0).getDate();
-  
+  const daysInMonth = new Date(new Date().getFullYear(), month, 0).getDate();
   const currentDay = daySelect.value;
+
   daySelect.innerHTML = "";
-  
+
   for (let i = 1; i <= daysInMonth; i++) {
     const option = document.createElement("option");
     option.value = i;
     option.textContent = i;
     daySelect.appendChild(option);
   }
-  
+
   if (currentDay && currentDay <= daysInMonth) {
     daySelect.value = currentDay;
   }
@@ -101,134 +73,74 @@ function updateDayOptions() {
 function loadToday() {
   const today = new Date();
   monthSelect.value = today.getMonth() + 1;
-  updateDayOptions();
+  fillDayOptions();
   daySelect.value = today.getDate();
   fetchData(today.getMonth() + 1, today.getDate());
 }
 
+todayBtn.addEventListener("click", loadToday);
+
 async function fetchData(month, day) {
   if (!month || !day || isFetching) return;
-  
-  try {
-    isFetching = true;
-    loader.classList.remove("hidden");
-    timeline.innerHTML = "";
 
+  isFetching = true;
+  loader.classList.remove("hidden");
+  timeline.innerHTML = "";
+
+  try {
     const res = await fetch(`https://history.muffinlabs.com/date/${month}/${day}`);
-    if (!res.ok) throw new Error("Network response was not ok");
-    
+    if (!res.ok) throw new Error("Bad response");
     const data = await res.json();
     allData = data.data;
     applyFilters();
-
   } catch (err) {
-    console.error("Fetch error:", err);
-    timeline.innerHTML = `<p style="text-align:center; color:red; padding: 40px;">Failed to load data. Please check your connection.</p>`;
-  } finally {
-    isFetching = false;
-    loader.classList.add("hidden");
+    timeline.innerHTML = `<p style="text-align:center; color:red; padding:40px;">Failed to load data. Please check your connection.</p>`;
   }
+
+  isFetching = false;
+  loader.classList.add("hidden");
 }
+
+yearFilter.addEventListener("input", applyFilters);
+sortSelect.addEventListener("change", applyFilters);
+searchInput.addEventListener("input", applyFilters);
 
 function applyFilters() {
   if (!allData || !allData[currentType]) return;
-  
-  let events = [...allData[currentType]];
 
-  events.forEach(e => e.year = parseInt(e.year));
+  let events = allData[currentType].map(function (e) {
+    return { ...e, year: parseInt(e.year) };
+  });
 
-  const yearVal = parseInt(yearFilter.value);
-  if (yearVal) {
-    events = events.filter(e => e.year >= yearVal);
+  // Filter by year
+  const minYear = parseInt(yearFilter.value);
+  if (minYear) {
+    events = events.filter(function (e) { return e.year >= minYear; });
   }
 
-  const searchVal = searchInput.value.toLowerCase();
-  if (searchVal) {
-    events = events.filter(e =>
-      e.text.toLowerCase().includes(searchVal)
-    );
+  // Filter by search
+  const search = searchInput.value.toLowerCase();
+  if (search) {
+    events = events.filter(function (e) {
+      return e.text.toLowerCase().includes(search);
+    });
   }
 
-  const sort = sortSelect.value;
-  events.sort((a, b) =>
-    sort === "asc" ? a.year - b.year : b.year - a.year
-  );
+  // Sort
+  const order = sortSelect.value;
+  events.sort(function (a, b) {
+    return order === "asc" ? a.year - b.year : b.year - a.year;
+  });
 
   renderTimeline(events);
 }
 
-function renderTimeline(events) {
-  timeline.innerHTML = "";
-
-  if (events.length === 0) {
-    timeline.innerHTML = `<p style="text-align:center; color:var(--subtext); padding:40px;">No events found for this criteria.</p>`;
-    return;
-  }
-
-  events.forEach((event, index) => {
-    const side = index % 2 === 0 ? "left" : "right";
-    const isSaved = checkIfSaved(event.text);
-
-    const previewText = event.text.length > 100 ? event.text.slice(0, 100) + "..." : event.text;
-    const fullText = event.text;
-
-    const item = document.createElement("div");
-    item.className = `timeline-item ${side}`;
-
-    item.innerHTML = `
-      <div class="timeline-dot"></div>
-
-      <div class="content-card">
-        <h2 class="year">${event.year}</h2>
-        <div class="divider"></div>
-
-        <p class="preview-text">${previewText}</p>
-
-        <div class="extra-content">
-          <p class="full-description">${fullText}</p>
-
-          <div class="actions-row">
-            ${
-              event.links?.[0]
-                ? `<a href="${event.links[0].link}" target="_blank" class="wiki-link" onclick="event.stopPropagation()">Read more</a>`
-                : ""
-            }
-
-            <button class="save-btn ${isSaved ? 'saved' : ''}">
-              ${isSaved ? 'Saved' : 'Save'}
-            </button>
-          </div>
-        </div>
-      </div>
-    `;
-
-    const card = item.querySelector(".content-card");
-    card.addEventListener("click", () => {
-      card.classList.toggle("expanded");
-    });
-
-    const saveBtn = item.querySelector(".save-btn");
-    saveBtn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      toggleSave(saveBtn, event);
-    });
-
-    timeline.appendChild(item);
-
-    setTimeout(() => {
-      item.classList.add("show");
-    }, index * 70);
-  });
-}
-
-todayBtn.addEventListener("click", loadToday);
-
-tabs.forEach(tab => {
-  tab.addEventListener("click", () => {
+tabs.forEach(function (tab) {
+  tab.addEventListener("click", function () {
     const type = tab.getAttribute("data-type");
     if (!type) return;
 
-    tabs.forEach(t => t.classList.remove("active"));
+    tabs.forEach(function (t) { t.classList.remove("active"); });
     tab.classList.add("active");
 
     if (type === "Births") {
@@ -243,21 +155,67 @@ tabs.forEach(tab => {
   });
 });
 
-yearFilter.addEventListener("input", applyFilters);
-sortSelect.addEventListener("change", applyFilters);
-searchInput.addEventListener("input", applyFilters);
+function renderTimeline(events) {
+  timeline.innerHTML = "";
 
-function checkIfSaved(text) {
-  const favs = JSON.parse(localStorage.getItem("favorites")) || [];
-  return favs.some(e => e.text === text);
+  if (events.length === 0) {
+    timeline.innerHTML = `<p style="text-align:center; color:var(--subtext); padding:40px;">No events found for this criteria.</p>`;
+    return;
+  }
+
+  events.forEach(function (event, index) {
+    const side = index % 2 === 0 ? "left" : "right";
+    const isSaved = isEventSaved(event.text);
+    const previewText = event.text.length > 100 ? event.text.slice(0, 100) + "..." : event.text;
+
+    const item = document.createElement("div");
+    item.className = `timeline-item ${side}`;
+
+    item.innerHTML = `
+      <div class="timeline-dot"></div>
+      <div class="content-card">
+        <h2 class="year">${event.year}</h2>
+        <div class="divider"></div>
+        <p class="preview-text">${previewText}</p>
+        <div class="extra-content">
+          <p class="full-description">${event.text}</p>
+          <div class="actions-row">
+            ${event.links?.[0] ? `<a href="${event.links[0].link}" target="_blank" class="wiki-link" onclick="event.stopPropagation()">Read more</a>` : ""}
+            <button class="save-btn ${isSaved ? "saved" : ""}">${isSaved ? "Saved" : "Save"}</button>
+          </div>
+        </div>
+      </div>
+    `;
+
+    item.querySelector(".content-card").addEventListener("click", function () {
+      this.classList.toggle("expanded");
+    });
+
+    item.querySelector(".save-btn").addEventListener("click", function (e) {
+      e.stopPropagation();
+      toggleSave(this, event);
+    });
+
+    timeline.appendChild(item);
+
+    setTimeout(function () { item.classList.add("show"); }, index * 70);
+  });
+}
+
+function getSavedEvents() {
+  return JSON.parse(localStorage.getItem("favorites")) || [];
+}
+
+function isEventSaved(text) {
+  return getSavedEvents().some(function (e) { return e.text === text; });
 }
 
 function toggleSave(btn, event) {
-  let favs = JSON.parse(localStorage.getItem("favorites")) || [];
-  const index = favs.findIndex(e => e.text === event.text);
+  let favs = getSavedEvents();
+  const exists = favs.findIndex(function (e) { return e.text === event.text; });
 
-  if (index > -1) {
-    favs.splice(index, 1);
+  if (exists > -1) {
+    favs.splice(exists, 1);
     btn.classList.remove("saved");
     btn.textContent = "Save";
   } else {
