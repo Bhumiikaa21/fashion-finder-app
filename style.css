@@ -37,7 +37,7 @@ body.light-mode {
   --text: #18181b;
   --subtext: #71717a;
   --accent: #d4a574;
-  --accent-hover: #996f0a;
+  --accent-hover: #d4a574;
   --accent-glow: rgba(184, 134, 11, 0.1);
   --border: rgba(0, 0, 0, 0.06);
   --border-hover: rgba(0, 0, 0, 0.12);
