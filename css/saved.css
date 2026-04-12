@@ -1,0 +1,80 @@
+.saved-container {
+  max-width: 720px;
+  margin: 60px auto 80px;
+  padding: 0 24px;
+}
+
+.saved-container h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(32px, 5vw, 42px);
+  text-align: center;
+  margin-bottom: 48px;
+  letter-spacing: -0.02em;
+}
+
+.saved-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.saved-card {
+  background: var(--card);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  padding: 28px;
+  transition: all 0.3s ease;
+}
+
+.saved-card:hover {
+  border-color: var(--border-hover);
+  box-shadow: var(--shadow);
+  transform: translateY(-2px);
+}
+
+.saved-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.saved-year {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.saved-text {
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--subtext);
+}
+
+.saved-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+
+.remove-btn {
+  background: transparent;
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.remove-btn:hover {
+  background: #ef4444;
+  color: white;
+  border-color: #ef4444;
+}
