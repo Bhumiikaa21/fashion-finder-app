@@ -5,6 +5,8 @@
   --timelineyeartext : #d4a574;
   --timelinecard : #161618;
   --timelinesubtext: #a1a1aa;
+  --savebuttonbg:rgba(184, 134, 11, 0.1);
+  --savebuttoncolor:#d4a574;
   --card: #161618;
   --card-hover: #1c1c1f;
   --text: #f4f4f5;
@@ -28,6 +30,8 @@ body.light-mode {
   --timelineyeartext : #ffffff;
   --timelinesubtext: #ffffff;
   --timelinecard : #d4a574;
+  --savebuttonbg:rgba(255, 255, 255, 0.1);
+  --savebuttoncolor:#ffffff;
   --card: #ffffff;
   --card-hover: #fafaf9;
   --text: #18181b;
@@ -456,7 +460,7 @@ body.light-mode #stickySection.sticky {
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(90deg, var(--accent), transparent);
+  background: linear-gradient(90deg, var(--timelinecard), transparent);
   opacity: 0;
   transition: opacity var(--transition);
 }
@@ -524,7 +528,7 @@ body.light-mode #stickySection.sticky {
 }
 
 .wiki-link {
-  color: var(--accent);
+  color: var(--timelineyeartext);
   text-decoration: none;
   font-size: 13px;
   font-weight: 600;
@@ -549,8 +553,8 @@ body.light-mode #stickySection.sticky {
 
 .save-btn {
   background: transparent;
-  border: 1px solid var(--border);
-  color: var(--subtext);
+  border: 1px solid var(--timelineyeartext);
+  color: var(--timelinesubtext);
   padding: 8px 16px;
   border-radius: var(--radius-sm);
   font-size: 13px;
@@ -564,9 +568,9 @@ body.light-mode #stickySection.sticky {
 }
 
 .save-btn:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-  background: var(--accent-glow);
+  border-color: var(--savebuttoncolor);
+  color: var(--savebuttoncolor);
+  background: var(--savebuttonbg);
 }
 
 .save-btn.saved {
