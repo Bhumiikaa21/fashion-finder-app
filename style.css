@@ -1,6 +1,10 @@
 :root {
   --bg: #0a0a0b;
   --bg-secondary: #111113;
+  --controler: #000;
+  --timelineyeartext : #d4a574;
+  --timelinecard : #161618;
+  --timelinesubtext: #a1a1aa;
   --card: #161618;
   --card-hover: #1c1c1f;
   --text: #f4f4f5;
@@ -20,11 +24,15 @@
 body.light-mode {
   --bg: #fafaf9;
   --bg-secondary: #f5f5f4;
+  --controler: #ffffff;
+  --timelineyeartext : #ffffff;
+  --timelinesubtext: #ffffff;
+  --timelinecard : #d4a574;
   --card: #ffffff;
   --card-hover: #fafaf9;
   --text: #18181b;
   --subtext: #71717a;
-  --accent: #b8860b;
+  --accent: #d4a574;
   --accent-hover: #996f0a;
   --accent-glow: rgba(184, 134, 11, 0.1);
   --border: rgba(0, 0, 0, 0.06);
@@ -218,7 +226,7 @@ body.light-mode .navbar {
   border: none;
   border-radius: var(--radius-sm);
   background: var(--accent);
-  color: #000;
+  color: var(--controler);
   font-size: 15px;
   font-weight: 600;
   cursor: pointer;
@@ -277,7 +285,7 @@ body.light-mode .tab:hover {
 
 .tab.active {
   background: var(--accent);
-  color: #000;
+  color: var(--controler);
   box-shadow: 0 2px 8px var(--accent-glow);
 }
 
@@ -372,8 +380,8 @@ body.light-mode #stickySection.sticky {
   background: linear-gradient(
     to bottom,
     transparent 0%,
-    var(--accent) 10%,
-    var(--accent) 90%,
+    #d4a574 10%,
+    #d4a574 90%,
     transparent 100%
   );
   opacity: 0.3;
@@ -408,11 +416,11 @@ body.light-mode #stickySection.sticky {
 .timeline-dot {
   width: 14px;
   height: 14px;
-  background: var(--accent);
+  background: #d4a574;
   position: absolute;
   top: 32px;
   border-radius: 50%;
-  box-shadow: 0 0 0 4px var(--bg), 0 0 20px var(--accent);
+  box-shadow: 0 0 0 4px var(--bg), 0 0 20px #d4a574;
   z-index: 10;
   transition: transform var(--transition);
 }
@@ -430,11 +438,11 @@ body.light-mode #stickySection.sticky {
 }
 
 .content-card {
-  background: var(--card);
+  background: var(--timelinecard);
   border-radius: var(--radius);
   padding: 28px;
   border: 1px solid var(--border);
-  box-shadow: var(--shadow);
+  box-shadow: var(--timelinecard);
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
@@ -467,7 +475,7 @@ body.light-mode #stickySection.sticky {
   font-family: 'Playfair Display', serif;
   font-size: 38px;
   font-weight: 700;
-  color: var(--accent);
+  color: var(--timelineyeartext);
   line-height: 1;
   margin-bottom: 4px;
 }
@@ -475,14 +483,14 @@ body.light-mode #stickySection.sticky {
 .divider {
   width: 50px;
   height: 2px;
-  background: linear-gradient(90deg, var(--accent), transparent);
+  background: linear-gradient(90deg, var(--timelineyeartext), transparent);
   margin: 16px 0;
   border-radius: 2px;
 }
 
 .preview-text {
   font-size: 15px;
-  color: var(--subtext);
+  color: var(--timelinesubtext);
   line-height: 1.7;
 }
 
