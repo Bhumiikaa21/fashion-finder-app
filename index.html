@@ -50,24 +50,26 @@
     </div>
   </section>
 
-  <section class="controls">
-    <div class="tabs">
-      <button class="tab active" data-type="Events">Events</button>
-      <button class="tab" data-type="Births">Births</button>
-      <button class="tab" data-type="Deaths">Deaths</button>
-    </div>
+  <div id="stickySection">
+    <section class="controls">
+      <div class="tabs">
+        <button class="tab active" data-type="Events">Events</button>
+        <button class="tab" data-type="Births">Births</button>
+        <button class="tab" data-type="Deaths">Deaths</button>
+      </div>
 
-    <div class="filters">
-      <input type="number" id="yearFilter" placeholder="Filter by year (e.g. 1800)" />
+      <div class="filters">
+        <input type="number" id="yearFilter" placeholder="Filter by year (e.g. 1800)" />
 
-      <select id="sort">
-        <option value="asc">Old → New</option>
-        <option value="desc">New → Old</option>
-      </select>
+        <select id="sort">
+          <option value="asc">Old → New</option>
+          <option value="desc">New → Old</option>
+        </select>
 
-      <input type="text" id="searchInput" placeholder="Search in events..." />
-    </div>
-  </section>
+        <input type="text" id="searchInput" placeholder="Search in events..." />
+      </div>
+    </section>
+  </div>
 
   <section class="timeline-container">
     <div class="timeline-line"></div>

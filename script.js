@@ -12,6 +12,9 @@ const sortSelect   = document.getElementById("sort");
 const searchInput  = document.getElementById("searchInput");
 const toggleBtn    = document.getElementById("darkModeToggle");
 const loader       = document.getElementById("loader");
+const stickySection = document.getElementById("stickySection");
+const triggerPoint = stickySection.offsetTop;
+
 
 document.addEventListener("DOMContentLoaded", function () {
   loadTheme();
@@ -226,3 +229,11 @@ function toggleSave(btn, event) {
 
   localStorage.setItem("favorites", JSON.stringify(favs));
 }
+
+window.addEventListener("scroll", () => {
+  if (window.scrollY > triggerPoint - 80) {
+    stickySection.classList.add("sticky");
+  } else {
+    stickySection.classList.remove("sticky");
+  }
+});
