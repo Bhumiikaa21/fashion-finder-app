@@ -1,4 +1,4 @@
-Live Demo -- https://on-this-day-bice.vercel.app/
+Live Demo -- https://on-this-day-bice.vercel.app
 
 Overview
 On This Day – Historical Explorer is a modern, interactive web application that allows users to discover historical events, notable births, and deaths for any selected date.
@@ -46,7 +46,7 @@ Favorites System
 
 UI / UX Enhancements
     Modern, minimal, and premium design
-    Dark Mode 🌙 / Light Mode ☀️ toggle
+    Dark Mode / Light Mode  toggle
     Smooth layout transitions
     Expandable content with “Read more” links
 
